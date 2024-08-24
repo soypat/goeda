@@ -1,3 +1,3 @@
-module github.com/soypat/geda
+module github.com/soypat/goeda
 
 go 1.20

@@ -1,4 +1,4 @@
-(pcb /home/pato/Documents/src/ongoing/geda/piaa.dsn
+(pcb /home/pato/Documents/src/ongoing/goeda/piaa.dsn
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)

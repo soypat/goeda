@@ -1,9 +1,9 @@
-# geda
-[![go.dev reference](https://pkg.go.dev/badge/github.com/soypat/geda)](https://pkg.go.dev/github.com/soypat/geda)
-[![Go Report Card](https://goreportcard.com/badge/github.com/soypat/geda)](https://goreportcard.com/report/github.com/soypat/geda)
-[![codecov](https://codecov.io/gh/soypat/geda/branch/main/graph/badge.svg)](https://codecov.io/gh/soypat/geda)
-[![Go](https://github.com/soypat/geda/actions/workflows/go.yml/badge.svg)](https://github.com/soypat/geda/actions/workflows/go.yml)
-[![sourcegraph](https://sourcegraph.com/github.com/soypat/geda/-/badge.svg)](https://sourcegraph.com/github.com/soypat/geda?badge)
+# goeda
+[![go.dev reference](https://pkg.go.dev/badge/github.com/soypat/goeda)](https://pkg.go.dev/github.com/soypat/goeda)
+[![Go Report Card](https://goreportcard.com/badge/github.com/soypat/goeda)](https://goreportcard.com/report/github.com/soypat/goeda)
+[![codecov](https://codecov.io/gh/soypat/goeda/branch/main/graph/badge.svg)](https://codecov.io/gh/soypat/goeda)
+[![Go](https://github.com/soypat/goeda/actions/workflows/go.yml/badge.svg)](https://github.com/soypat/goeda/actions/workflows/go.yml)
+[![sourcegraph](https://sourcegraph.com/github.com/soypat/goeda/-/badge.svg)](https://sourcegraph.com/github.com/soypat/goeda?badge)
 <!--
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
@@ -16,7 +16,7 @@ Electronics Design Automation with Go and KiCad.
 
 How to install package with newer versions of Go (+1.16):
 ```sh
-go mod download github.com/soypat/geda@latest
+go mod download github.com/soypat/goeda@latest
 ```
 
 ### Features

@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/soypat/geda/io/dsn"
+	"github.com/soypat/goeda/io/dsn"
 )
 
 const dsnFile = `(pcb example.dsn
