@@ -8,7 +8,7 @@ import (
 	"github.com/soypat/geda/io/dsn"
 )
 
-const dsnFile = `(pcb /home/pato/Documents/src/ongoing/geda/piaa.dsn
+const dsnFile = `(pcb /home/pato/Documents/src/ongoing/geda/piaa.dsn))
   (resolution um 10)
   (unit um)
   (structure
@@ -44,11 +44,15 @@ const dsnFile = `(pcb /home/pato/Documents/src/ongoing/geda/piaa.dsn
 )`
 
 func main() {
+	const source = "example.dsn"
 	// One can also use a file as a source:
-	// fp, _ := os.Open("myproject.dsn")
-	fp := strings.NewReader(dsnFile)
+	// fp, _ := os.Open(filename)
+	fp := strings.NewReader(dsnFile) // Use string as source.
 	var l dsn.Lexer
-	l.Reset(fp)
+	err := l.Reset(source, fp)
+	if err != nil {
+		log.Fatal(err)
+	}
 	parser, err := dsn.NewParser(&l)
 	if err != nil {
 		log.Fatal(err)

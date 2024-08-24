@@ -36,23 +36,25 @@ type Lexer struct {
 
 	// Higher level statistics fields:
 
-	line   int // file line number
-	col    int // column number in line
-	pos    int // byte position.
-	parens int // Parentheses counter to pick up on unbalanced parentheses early.
+	source string // filename or source name.
+	line   int    // file line number
+	col    int    // column number in line
+	pos    int    // byte position.
+	parens int    // Parentheses counter to pick up on unbalanced parentheses early.
 }
 
 // Reset discards all state and buffered data and begins a new lexing
 // procedure on the input r. It performs a single utf8 read to initialize.
-func (l *Lexer) Reset(r io.Reader) error {
+func (l *Lexer) Reset(source string, r io.Reader) error {
 	if r == nil {
 		return errors.New("nil reader")
 	}
 	*l = Lexer{
-		input: l.input,
-		line:  1,
-		idbuf: l.idbuf,
-		strq:  '"',
+		input:  l.input,
+		line:   1,
+		idbuf:  l.idbuf,
+		strq:   '"',
+		source: source,
 	}
 	l.input.Reset(r)
 	if l.idbuf == nil {
@@ -60,6 +62,11 @@ func (l *Lexer) Reset(r io.Reader) error {
 	}
 	l.readChar()
 	return l.err
+}
+
+// Source returns the name the lexer was reset/initialized with. Usually a filename.
+func (l *Lexer) Source() string {
+	return l.source
 }
 
 // Err returns the lexer error.
@@ -104,11 +111,11 @@ func (l *Lexer) NextToken() (tok Token, startPos int, literal []byte) {
 		l.parens++
 	case ')':
 		tok = TokRPAREN
-		l.readChar()
 		l.parens--
 		if l.parens < 0 {
 			l.err = errors.New("unbalanced parentheses")
 		}
+		l.readChar()
 	default:
 		if isDigit(ch) || ch == '-' {
 			var isFloat bool

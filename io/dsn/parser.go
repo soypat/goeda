@@ -1,6 +1,7 @@
 package dsn
 
 import (
+	"errors"
 	"fmt"
 	"math"
 )
@@ -51,7 +52,19 @@ func (d *Decl) Depth() int {
 	return d.level
 }
 
+func (p *Parser) makeLexerErr(fm string, args ...any) error {
+	line, col := p.l.LineCol()
+	src := p.l.Source()
+	if src == "" {
+		return fmt.Errorf(fm+":%d:%d", append(args, line, col)...)
+	}
+	return fmt.Errorf(fm+" %s:%d:%d", append(args, src, line, col)...)
+}
+
 func (p *Parser) ParseFilter(filter func([]byte) bool) (decls []Decl, err error) {
+	if filter == nil {
+		return nil, errors.New("nil filter")
+	}
 	l := p.l
 	const noFilter = math.MaxInt
 	topDecl := Decl{}
@@ -80,11 +93,9 @@ func (p *Parser) ParseFilter(filter func([]byte) bool) (decls []Decl, err error)
 
 		if openParen {
 			if tok == TokLPAREN {
-				line, col := l.LineCol()
-				return nil, fmt.Errorf("adjacent open paretheses:%d:%d", line, col)
+				return nil, p.makeLexerErr("adjacent open parentheses")
 			} else if tok != TokIDENT {
-				line, col := l.LineCol()
-				return nil, fmt.Errorf("adjacent open paretheses:%d:%d ", line, col)
+				return nil, p.makeLexerErr("%s as declaration name, want IDENT", tok.String())
 			}
 			openParen = false
 			currentDecl.decls = append(currentDecl.decls, Decl{
@@ -107,16 +118,17 @@ func (p *Parser) ParseFilter(filter func([]byte) bool) (decls []Decl, err error)
 	}
 
 	if l.Err() != nil {
-		line, col := l.LineCol()
-		return nil, fmt.Errorf("%s at:%d:%d", l.Err(), line, col)
+		return nil, p.makeLexerErr("%s", l.Err())
 	} else if tok == TokEOF {
+		if l.Parens() != 1 {
+			return nil, errors.New("unclosed parentheses")
+		}
 		for i := range topDecl.decls {
 			topDecl.decls[i].parent = nil
 		}
 		return topDecl.decls, nil
 	} else if tok == TokILLEGAL {
-		line, col := l.LineCol()
-		return nil, fmt.Errorf("illegal at:%d:%d", line, col)
+		return nil, p.makeLexerErr("illegal token")
 	}
 	panic("unreachable")
 }
