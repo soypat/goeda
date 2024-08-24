@@ -158,7 +158,7 @@ func (l *Lexer) readString() []byte {
 		case '\\':
 			l.err = errors.New("does not support escaping")
 			return l.idbuf[start:]
-		case '"':
+		case l.strq:
 			// Finish string and consume double quotes.
 			l.idbuf = utf8.AppendRune(l.idbuf, l.ch)
 			l.readChar()

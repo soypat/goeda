@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"strings"
 )
 
 type Parser struct {
@@ -116,9 +117,10 @@ func (p *Parser) ParseFilter(filter func([]byte) bool) (decls []Decl, err error)
 			currentDecl = currentDecl.parent
 		}
 	}
-
-	if l.Err() != nil {
-		return nil, p.makeLexerErr("%s", l.Err())
+	err = l.Err()
+	if err != nil {
+		msg := strings.ReplaceAll(err.Error(), "%", "%%")
+		return nil, p.makeLexerErr(msg)
 	} else if tok == TokEOF {
 		if l.Parens() != 1 {
 			return nil, errors.New("unclosed parentheses")
