@@ -8,7 +8,7 @@ import (
 	"github.com/soypat/geda/io/dsn"
 )
 
-const dsnFile = `(pcb /home/pato/Documents/src/ongoing/geda/piaa.dsn))
+const dsnFile = `(pcb example.dsn
   (resolution um 10)
   (unit um)
   (structure
