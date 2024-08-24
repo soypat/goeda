@@ -7,13 +7,15 @@ import (
 	"testing"
 )
 
+const dsnFilename = "piaa.dsn"
+
 //go:embed piaa.dsn
 var dsnFile string
 
 func TestLexerOnFile(t *testing.T) {
 	fp := strings.NewReader(dsnFile)
 	var l Lexer
-	err := l.Reset(fp)
+	err := l.Reset(dsnFilename, fp)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -32,7 +34,7 @@ func TestLexerOnFile(t *testing.T) {
 func TestParse(t *testing.T) {
 	fp := strings.NewReader(dsnFile)
 	var l Lexer
-	err := l.Reset(fp)
+	err := l.Reset(dsnFilename, fp)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -58,7 +60,7 @@ func TestParse(t *testing.T) {
 func TestLexer(t *testing.T) {
 	fp, _ := os.Open("piaa.dsn")
 	var l Lexer
-	l.Reset(fp)
+	l.Reset(dsnFilename, fp)
 	for {
 		tok, _, literal := l.NextToken()
 		if tok == TokILLEGAL {
@@ -76,7 +78,7 @@ func TestString(t *testing.T) {
 	const str = `"hello word's"`
 	fp := strings.NewReader(str)
 	var l Lexer
-	l.Reset(fp)
+	l.Reset(dsnFilename, fp)
 	tok, _, literal := l.NextToken()
 	if tok == TokILLEGAL {
 		t.Fatal("illegal line", l.line, l.err, literal)

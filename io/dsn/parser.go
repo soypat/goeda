@@ -122,8 +122,8 @@ func (p *Parser) ParseFilter(filter func([]byte) bool) (decls []Decl, err error)
 		msg := strings.ReplaceAll(err.Error(), "%", "%%")
 		return nil, p.makeLexerErr(msg)
 	} else if tok == TokEOF {
-		if l.Parens() != 1 {
-			return nil, errors.New("unclosed parentheses")
+		if l.Parens() != 0 {
+			return nil, p.makeLexerErr("unclosed parentheses")
 		}
 		for i := range topDecl.decls {
 			topDecl.decls[i].parent = nil

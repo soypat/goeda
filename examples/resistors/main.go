@@ -42,12 +42,6 @@ func divider(in, out, gnd goeda.Net, factor, multiplier, error float64) *goeda.C
 	return &c
 }
 
-func abc() int {
-	varname := getAssignmentVarname(1)
-	fmt.Println(varname)
-	return 1
-}
-
 func newresistor(R float64) Resistor {
 	x := Resistor{Value: R, BaseComponent: goeda.BaseComponent{Name: getAssignmentVarname(1)}}
 	x.SetPads(
