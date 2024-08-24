@@ -1,4 +1,4 @@
-package kicad
+package dsn
 
 import (
 	"bufio"

@@ -1,4 +1,4 @@
-package kicad
+package dsn
 
 import (
 	"fmt"
@@ -53,7 +53,7 @@ func (d *Decl) Depth() int {
 
 func (p *Parser) ParseFilter(filter func([]byte) bool) (decls []Decl, err error) {
 	l := p.l
-	const noFilter = math.MaxInt32
+	const noFilter = math.MaxInt
 	topDecl := Decl{}
 	topDecl.name = "GLOBAL"
 	currentDecl := &topDecl
